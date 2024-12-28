@@ -1,8 +1,6 @@
 package testPackage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -52,6 +50,12 @@ public class TestClass2 {
         driver.findElement(By.id("reveal")).click();
 
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+//        wait = new FluentWait<>(driver)
+//                .withTimeout(Duration.ofSeconds(30))
+//                .pollingEvery(Duration.ofMillis(500))
+//                .ignoring(NotFoundException.class);
+
         wait.until(d -> {
             d.findElement(By.id("revealed")).sendKeys("test");
             return true;
@@ -73,7 +77,9 @@ public class TestClass2 {
                 new FluentWait<>(driver)
                         .withTimeout(Duration.ofSeconds(30))
                         .pollingEvery(Duration.ofMillis(100))
-                        .ignoring(ElementNotInteractableException.class);
+                        .ignoring(NotFoundException.class)
+                        .ignoring(ElementNotInteractableException.class)
+                        .ignoring(StaleElementReferenceException.class);
 
         wait.until(d -> {
             d.findElement(By.id("revealed")).sendKeys("test");
@@ -84,7 +90,7 @@ public class TestClass2 {
     }
 
     @Test
-    public void properExplicitWaitTest() {
+    public void explicitWaitWithIsDisplayedTest() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
 
