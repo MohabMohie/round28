@@ -2,11 +2,13 @@ package testPackage;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class WaitsRevisionTest {
     @Test
