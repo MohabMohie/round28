@@ -46,11 +46,13 @@ public class TestClass3 {
         // test steps
         driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
 
-        By countryNameLabel = By.xpath("//tr[contains(.,'Ernst Handel')]/td[3]");
+        String companyName = "Magazzini Alimentari Riuniti";
+
+        By countryNameLabel = By.xpath("//tr[contains(.,'"+companyName+"')]/td[3]");
 
         wait.until(d -> {
             String countryName = driver.findElement(countryNameLabel).getText();
-            Assert.assertEquals(countryName, "Austria");
+            Assert.assertEquals(countryName, "Italy");
             return true;
         });
 
