@@ -1,6 +1,10 @@
 # round28
 Automatest: Test Automation training round 28 practice project
 
+
+## Rules of xpath
+
+
 relative xpath:
 
 //tagName[@attribute='value']
@@ -23,6 +27,9 @@ relative xpath:
 //tagName[text()='element text']
 //tagName[contains(text(),'partial text')]
 
+//tagName[contains(.,'partial text')]
+
+
 
 //section[not(contains(@class, 'shrink'))]/a/img
 
@@ -38,25 +45,25 @@ factors of a good/stable xpath:
 - do not use text to identify elements in a website that supports multiple languages
 
 
-Assert that the Country for the Company [Ernst Handel] is [Austria]
-
--- locate the country using the company name
 
 
-/html/body/div[5]/div[1]/div[1]/div[3]/div/table/tbody/tr[4]/td[3]
+## Rules of test structure
+
+Test Cases:
+
+- test class should be created per module
+- one test method per test case
+- before/after method for setup/teardown
+- test case should start with navigation
+- test case should end with assertion
+- [test cases should be independent]
 
 
-//*[@id="customers"]/tbody/tr[4]/td[3]
+Test Scenarios:
 
-//td[text()='Austria']
-
----> option 1
-//tr[contains(.,'Ernst Handel')]/td[3]    >>  //tr[td[text()='Ernst Handel']]/td[3]
-
----> option 2
-//td[text()='Ernst Handel']/parent::tr/td[3]   >>  //td[text()='Ernst Handel']/../td[3]
-
----> option 3
-//td[text()='Ernst Handel']/following-sibling::td[2]
-
-
+- test package per module
+- test class per scenario
+- before/after class for setup/teardown
+- navigation in the before class
+- test case should end with assertion
+- [test cases should be dependent]
