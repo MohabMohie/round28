@@ -1,60 +1,52 @@
-package testPackage;
+package search;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class TestClass5 {
+public class PomTests {
     WebDriver driver;
     Wait<WebDriver> wait;
+    Landing landingPage;
+    Results resultsPage;
+
+    @Test
+    public void checkSecondResultTitle() {
+        new Landing(driver).navigate()
+                .search("Selenium WebDriver")
+                .assertResultTitle(3, "UserGuide");
+    }
+
+    @Test
+    public void checkThirdResultTitle() {
+        String searchResultTitle = new Landing(driver).navigate().search("TestNG").getSearchResultTitle(3);
+        Assert.assertEquals(searchResultTitle, "TestNG Tutorial");
+    }
 
     @Test
     public void checkFourthResultTitle() {
-        driver.navigate().to("https://duckduckgo.com/");
-
-        // identify search box
-        By searchInput = By.id("searchbox_input");
-        // type search query
-        driver.findElement(searchInput).sendKeys("TestNG" + Keys.ENTER);
-        // press enter
-
-        // Synchronization point
-
-        int targetSearchResult = 4;
-        By dynamicSearchResult = By.xpath("(//li[@data-layout='organic'])["+targetSearchResult+"]//a[@data-testid='result-title-a']");
-
-        wait.until(d -> {
-            String searchResultTitle = driver.findElement(dynamicSearchResult).getText();
-            Assert.assertEquals(searchResultTitle, "TestNG Tutorial");
-            return true;
-        });
+        landingPage.navigate();
+        landingPage.search("TestNG");
+        String searchResultTitle = resultsPage.getSearchResultTitle(4);
+        Assert.assertEquals(searchResultTitle, "TestNG Tutorial - GeeksforGeeks");
     }
 
     @Test
     public void checkFifthResultTitle() {
         driver.navigate().to("https://duckduckgo.com/");
-
-        // identify search box
         By searchInput = By.id("searchbox_input");
-        // type search query
         driver.findElement(searchInput).sendKeys("Selenium WebDriver" + Keys.ENTER);
-        // press enter
-
-        // Synchronization point
-
         int targetSearchResult = 5;
         By dynamicSearchResult = By.xpath("(//li[@data-layout='organic'])["+targetSearchResult+"]//a[@data-testid='result-title-a']");
-
-        wait.until(d -> {
-            String searchResultTitle = driver.findElement(dynamicSearchResult).getText();
-            Assert.assertEquals(searchResultTitle, "Selenium WebDriver");
-            return true;
-        });
+        String searchResultTitle = driver.findElement(dynamicSearchResult).getText();
+        Assert.assertEquals(searchResultTitle, "Selenium WebDriver");
     }
 
     @BeforeMethod
@@ -68,6 +60,11 @@ public class TestClass5 {
                 .ignoring(ElementNotInteractableException.class)
                 .ignoring(AssertionError.class)
         ;
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        landingPage = new Landing(driver);
+        resultsPage = new Results(driver);
 
         driver.manage().window().maximize();
     }
